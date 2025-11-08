@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+<<<<<<< Updated upstream
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -15,19 +16,31 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
+=======
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "es6"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+>>>>>>> Stashed changes
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+<<<<<<< Updated upstream
     "jsx": "react-jsx",
+=======
+    "jsx": "preserve",
+>>>>>>> Stashed changes
     "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
+<<<<<<< Updated upstream
     "paths": {
       "@/*": ["./src/*"]
     }
@@ -42,3 +55,13 @@
   ],
   "exclude": ["node_modules"]
 }
+=======
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+>>>>>>> Stashed changes
