@@ -1,0 +1,52 @@
+name: Dependabot Auto-Merge
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      
+      - name: Auto-merge for patch and minor updates
+        # Only auto-merge patch and minor version updates, not major
+        if: steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor'
+        run: |
+          gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Approve PR for patch updates
+        # Auto-approve patch updates to streamline the process
+        if: steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        run: |
+          gh pr review "$PR_URL" --approve
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Add labels based on update type
+        run: |
+          if [ "${{ steps.metadata.outputs.update-type }}" = "version-update:semver-patch" ]; then
+            gh pr edit "$PR_URL" --add-label "dependencies,patch-update,auto-merge"
+          elif [ "${{ steps.metadata.outputs.update-type }}" = "version-update:semver-minor" ]; then
+            gh pr edit "$PR_URL" --add-label "dependencies,minor-update,auto-merge"
+          else
+            gh pr edit "$PR_URL" --add-label "dependencies,major-update,review-required"
+          fi
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

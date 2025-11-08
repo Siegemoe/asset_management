@@ -1,0 +1,42 @@
+# This file controls who has approval rights in the repository.
+# Lines starting with '#' are comments.
+# Each line uses the following format: PATH OWNER1 OWNER2 OWNER3
+
+# Global owners for security issues and emergencies
+* @zghor
+
+# Codeowners for CI/CD workflows (critical infrastructure)
+.github/workflows/ @zghor
+
+# Codeowners for security configurations
+.github/dependabot.yml @zghor
+.github/CODEOWNERS @zghor
+
+# Codeowners for database schema and migrations
+prisma/ @zghor
+
+# Codeowners for authentication and security
+src/auth.ts @zghor
+src/lib/auth.ts @zghor
+src/lib/security/ @zghor
+
+# Codeowners for environment configuration
+.env.example @zghor
+next.config.ts @zghor
+
+# Codeowners for API routes
+src/app/api/ @zghor
+
+# Codeowners for package.json and dependencies
+package.json @zghor
+package-lock.json @zghor
+
+# Codeowners for TypeScript configuration
+tsconfig.json @zghor
+
+# Codeowners for documentation
+README.md @zghor
+docs/ @zghor
+
+# Default fallback if no other rule matches
+# @zghor

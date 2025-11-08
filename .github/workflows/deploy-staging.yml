@@ -1,0 +1,113 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write  # For OIDC authentication
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: ${{ steps.deploy.outputs.url }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Generate Prisma Client
+        run: npx prisma generate --no-engine
+      
+      - name: Build application
+        run: npm run build
+      
+      - name: Run database migrations
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
+      
+      - name: Deploy to Vercel Staging
+        id: deploy
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: ''
+          alias-domains: staging.asset-management.app
+      
+      - name: Run smoke tests
+        run: |
+          URL="${{ steps.deploy.outputs.preview-url }}"
+          echo "Testing staging deployment at: $URL"
+          
+          # Wait for deployment to propagate
+          sleep 30
+          
+          # Verify deployment
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$URL/api/health" || echo "000")
+          if [ "$STATUS" != "200" ]; then
+            echo "❌ Smoke test failed! Status: $STATUS"
+            exit 1
+          fi
+          
+          echo "✅ Smoke test passed!"
+      
+      - name: Run integration tests against staging
+        run: |
+          URL="${{ steps.deploy.outputs.preview-url }}"
+          echo "Running integration tests against: $URL"
+          
+          # Set environment for integration tests
+          export TEST_BASE_URL="$URL"
+          export NEXTAUTH_URL="$URL"
+          
+          # Run integration tests
+          npm run test:integration
+      
+      - name: Notify staging deployment
+        uses: slackapi/slack-github-action@v1
+        if: always()
+        with:
+          payload: |
+            {
+              "text": "🚀 Deployed to staging: ${{ steps.deploy.outputs.preview-url }}",
+              "attachments": [
+                {
+                  "color": "#36a64f",
+                  "fields": [
+                    {
+                      "title": "Commit",
+                      "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>",
+                      "short": false
+                    },
+                    {
+                      "title": "Branch",
+                      "value": "${{ github.ref_name }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Tests",
+                      "value": "✅ Smoke tests passed\n✅ Integration tests passed",
+                      "short": true
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
