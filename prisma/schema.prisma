@@ -1,0 +1,296 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  SITE_MANAGER
+}
+
+enum SecurityEventType {
+  LOGIN_SUCCESS
+  LOGIN_FAILURE
+  LOGOUT
+  PASSWORD_CHANGE
+  PASSWORD_RESET_REQUEST
+  PASSWORD_RESET_SUCCESS
+  ACCOUNT_LOCKED
+  ACCOUNT_UNLOCKED
+  PERMISSION_GRANTED
+  PERMISSION_REVOKED
+  USER_CREATED
+  USER_DELETED
+  SESSION_CREATED
+  SESSION_INVALIDATED
+  DATA_ACCESS
+  DATA_MODIFICATION
+  UNAUTHORIZED_ACCESS_ATTEMPT
+}
+
+enum SessionStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?   // For credentials-based login
+  role          Role      @default(SITE_MANAGER)
+  siteIds       String    // JSON string of site IDs the user has access to
+  
+  // Security fields
+  failedLoginAttempts    Int      @default(0)
+  lockedUntil            DateTime?
+  lastLoginAttempt       DateTime?
+  lastLoginSuccess       DateTime?
+  lastPasswordChange     DateTime @default(now())
+  passwordHistory        String?  // JSON string of last 5 password hashes
+  
+  accounts Account[]
+  sessions Session[]
+  assets   Asset[]
+  loginAttempts UserLoginAttempt[]
+  userSessions UserSession[]
+  securityEvents SecurityEvent[]
+  userPermissions UserPermission[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum SiteStatus {
+  ACTIVE
+  SUSPENDED
+  ARCHIVED
+}
+
+model Site {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  address     String?
+  status      SiteStatus @default(ACTIVE)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
+
+  assets Asset[]
+  rooms  Room[]
+}
+
+model Room {
+  id              String      @id @default(cuid())
+  name            String
+  siteId          String
+  status          RoomStatus  @default(READY)
+  tenantName      String?
+  tenantPhone     String?
+  notes           String?
+  site            Site        @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  assets          Asset[]
+
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@unique([siteId, name])
+}
+
+enum RoomStatus {
+  OCCUPIED
+  VACANT
+  READY
+}
+
+enum AssetType {
+  WASHER
+  DRYER
+  DISH_WASHER
+  REFRIGERATOR
+  AIR_CONDITIONER
+  OVEN_STOVE
+}
+
+model Asset {
+  id               String       @id @default(cuid())
+  assetNumber      String       @unique
+  brand            String
+  manufacturerPart String
+  serialNumber     String       @unique
+  siteId           String
+  roomId           String
+  installedDate    DateTime
+  type             AssetType
+
+  site Site  @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  room Room  @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  images AssetImage[]
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AssetImage {
+  id       String @id @default(cuid())
+  url      String
+  assetId  String
+  asset    Asset  @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Security Enhancement Models
+
+model UserLoginAttempt {
+  id        String   @id @default(cuid())
+  userId    String
+  email     String
+  ipAddress String?
+  userAgent String?
+  success   Boolean  @default(false)
+  reason    String?
+  createdAt DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, createdAt])
+  @@index([ipAddress, createdAt])
+}
+
+model UserSession {
+  id            String        @id @default(cuid())
+  userId        String
+  sessionToken  String        @unique
+  refreshToken  String?       @unique
+  deviceInfo    String?
+  ipAddress     String?
+  userAgent     String?
+  status        SessionStatus @default(ACTIVE)
+  lastActivity  DateTime      @default(now())
+  expiresAt     DateTime
+  createdAt     DateTime      @default(now())
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, status])
+  @@index([sessionToken])
+}
+
+model SecurityEvent {
+  id          String           @id @default(cuid())
+  userId      String?
+  eventType   SecurityEventType
+  description String
+  ipAddress   String?
+  userAgent   String?
+  resource    String?          // e.g., "asset:123", "site:456"
+  metadata    String?          // JSON string for additional data
+  severity    String           @default("INFO")
+  createdAt   DateTime         @default(now())
+  
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([userId, createdAt])
+  @@index([eventType, createdAt])
+  @@index([severity, createdAt])
+}
+
+model Permission {
+  id          String @id @default(cuid())
+  name        String @unique
+  description String?
+  resource    String // e.g., "asset", "site", "user"
+  action      String // e.g., "create", "read", "update", "delete"
+  createdAt   DateTime @default(now())
+  
+  rolePermissions RolePermission[]
+  userPermissions UserPermission[]
+}
+
+model RolePermission {
+  id           String @id @default(cuid())
+  role         Role
+  permissionId String
+  createdAt    DateTime @default(now())
+  
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  
+  @@unique([role, permissionId])
+}
+
+model UserPermission {
+  id           String @id @default(cuid())
+  userId       String
+  permissionId String
+  granted      Boolean @default(true)
+  createdAt    DateTime @default(now())
+  
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, permissionId])
+}
+
+model PasswordResetToken {
+  id         String   @id @default(cuid())
+  userId     String
+  token      String   @unique
+  expiresAt  DateTime
+  used       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  
+  @@index([userId])
+  @@index([token])
+}

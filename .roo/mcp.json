@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@0.0.38"
+      ]
+    },
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "-e",
+        "GITHUB_TOOLSETS",
+        "-e",
+        "GITHUB_READ_ONLY",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "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",
+        "GITHUB_TOOLSETS": "",
+        "GITHUB_READ_ONLY": ""
+      }
+    },
+    "sentry": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-sentry",
+        "--auth-token",
+        "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"
+      ]
+    }
+  }
+}

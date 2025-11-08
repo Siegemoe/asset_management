@@ -1,0 +1,50 @@
+import { prisma } from '../src/lib/prisma.js'
+
+async function updateZackToSuperAdmin() {
+  try {
+    // Try to find Zack by email (I can see from the logs that zghormley@gmail.com was used)
+    const zack = await prisma.user.findUnique({
+      where: { email: 'zghormley@gmail.com' }
+    })
+
+    if (zack) {
+      console.log(`Found existing user: ${zack.name} (${zack.email}) with role: ${zack.role}`)
+      
+      const updatedUser = await prisma.user.update({
+        where: { email: 'zghormley@gmail.com' },
+        data: { role: 'SUPER_ADMIN' }
+      })
+      
+      console.log(`✅ Updated ${updatedUser.name} to SUPER_ADMIN`)
+      console.log(`Updated user:`, {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role
+      })
+    } else {
+      console.log('❌ User "zghormley@gmail.com" not found')
+      
+      // Let's check what users exist
+      const allUsers = await prisma.user.findMany({
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true
+        }
+      })
+      
+      console.log('Existing users:')
+      allUsers.forEach(user => {
+        console.log(`- ${user.name} (${user.email}) - Role: ${user.role}`)
+      })
+    }
+  } catch (error) {
+    console.error('Error:', error)
+  } finally {
+    await prisma.$disconnect()
+  }
+}
+
+updateZackToSuperAdmin()
