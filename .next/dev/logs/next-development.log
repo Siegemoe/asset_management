@@ -1,0 +1,253 @@
+[00:00:05.562] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:06.384] Server  LOG      ✓ Ready in 4.8s
+[00:00:06.429] Server  WARN     ⚠ ./src/lib/security/securityMiddleware.ts:3:1
+Ecmascript file had an error
+  1 | // Security Middleware and Utilities
+  2 | import { NextRequest } from "next/server"
+> 3 | import crypto from "crypto"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export interface RateLimitConfig {
+  6 |   windowMs: number // Time window in milliseconds
+
+A Node.js module is loaded ('crypto' at line 3) which is not supported in the Edge Runtime.
+Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/security/securityMiddleware.ts
+    ./src/auth.ts
+    ./src/middleware.ts
+
+
+[00:00:10.153] Server  LOG      ○ Compiling /security ...
+[00:00:20.100] Server  WARN     ⚠ ./src/lib/security/securityMiddleware.ts:3:1
+Ecmascript file had an error
+  1 | // Security Middleware and Utilities
+  2 | import { NextRequest } from "next/server"
+> 3 | import crypto from "crypto"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export interface RateLimitConfig {
+  6 |   windowMs: number // Time window in milliseconds
+
+A Node.js module is loaded ('crypto' at line 3) which is not supported in the Edge Runtime.
+Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/security/securityMiddleware.ts
+    ./src/auth.ts
+    ./src/middleware.ts
+
+
+[00:00:20.176] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:23.235] Server  LOG     AUDIT: {}
+[00:00:51.872] Server  WARN     ⚠ ./src/lib/security/securityMiddleware.ts:3:1
+Ecmascript file had an error
+  1 | // Security Middleware and Utilities
+  2 | import { NextRequest } from "next/server"
+> 3 | import crypto from "crypto"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export interface RateLimitConfig {
+  6 |   windowMs: number // Time window in milliseconds
+
+A Node.js module is loaded ('crypto' at line 3) which is not supported in the Edge Runtime.
+Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/security/securityMiddleware.ts
+    ./src/auth.ts
+    ./src/middleware.ts
+
+
+[00:00:51.903] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:52.102] Server  LOG     AUDIT: {}
+[00:01:01.213] Server  WARN     ⚠ ./src/lib/security/securityMiddleware.ts:3:1
+Ecmascript file had an error
+  1 | // Security Middleware and Utilities
+  2 | import { NextRequest } from "next/server"
+> 3 | import crypto from "crypto"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export interface RateLimitConfig {
+  6 |   windowMs: number // Time window in milliseconds
+
+A Node.js module is loaded ('crypto' at line 3) which is not supported in the Edge Runtime.
+Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime
+
+Import trace:
+  Edge Middleware:
+    ./src/lib/security/securityMiddleware.ts
+    ./src/auth.ts
+    ./src/middleware.ts
+
+
+[00:01:01.220] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:01.724] Browser LOG     Attempting to sign in with: {"email":"zghormley@gmail.com","password":"123..."}
+[00:01:02.551] Server  LOG     🔍 Enhanced authentication attempt: {}
+[00:01:05.571] Server  LOG     🔐 Password validation: {}
+[00:01:05.591] Server  LOG     SECURITY: {}
+[00:01:05.597] Server  LOG     SESSION_CREATED: {}
+[00:01:05.602] Server  LOG     AUDIT: {}
+[00:01:05.604] Server  LOG     ✅ Enhanced authentication successful for user: "zghormley@gmail.com"
+[00:01:05.758] Browser LOG     SignIn result: {"code":null,"error":null,"ok":true,"status":200,"url":"http://localhost:3000/login"}
+[00:01:05.758] Browser LOG     SECURITY: {"action":"security_event","createdAt":"2025-11-08T17:02:33.984Z","description":"PASSWORD_CHANGE event occurred","details":{"action":"session_created","deviceInfo":"Web Browser","sessionId":"session_1762621353982_qv11pkgge","timestamp":"2025-11-08T17:02:33.982Z"},"eventType":"PASSWORD_CHANGE","id":"audit_1762621353984_rc7lhnikl","ipAddress":"127.0.0.1","severity":"MEDIUM","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36","userId":"user_from_login"}
+[00:01:05.758] Browser LOG     SESSION_CREATED: {"createdAt":"2025-11-08T17:02:33.982Z","deviceInfo":"Web Browser","expiresAt":"2025-11-08T17:32:33.982Z","id":"session_1762621353982_qv11pkgge","ipAddress":"127.0.0.1","lastActivity":"2025-11-08T17:02:33.982Z","sessionToken":"session_1762621353981_ady8mw7ry","status":"active","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36","userId":"user_from_login"}
+[00:01:05.758] Browser LOG     Session created for user: session_1762621353982_qv11pkgge
+[00:01:05.758] Browser LOG     AUDIT: {"action":"login","createdAt":"2025-11-08T17:02:33.986Z","description":"Successful login","eventType":"LOGIN_SUCCESS","id":"audit_1762621353986_4kac0kguv","ipAddress":"127.0.0.1","severity":"LOW","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36","userId":"user_from_login"}
+[00:01:16.374] Server  LOG     AUDIT: {}
+[00:01:16.474] Server  LOG     AUDIT: {}
+[00:03:44.061] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:44.138] Server  LOG     AUDIT: {}
+[00:09:24.283] Server  LOG      ✓ Compiled in 174ms
+[00:09:31.787] Server  LOG      ✓ Compiled in 251ms
+[00:15:00.188] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:15:00.473] Server  LOG     AUDIT: {}
+[00:15:12.346] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:15:22.070] Server  LOG     🔍 Enhanced authentication attempt: {}
+[00:15:22.277] Browser LOG     Attempting to sign in with: {"email":"zghormley@gmail.com","password":"123..."}
+[00:15:22.555] Server  LOG     🔐 Password validation: {}
+[00:15:22.555] Server  LOG     ❌ Invalid password
+[00:15:22.556] Server  LOG     AUDIT: {}
+[00:15:22.557] Server  LOG     FAILED_LOGIN_ATTEMPT: {}
+[00:15:22.558] Server  ERROR   [auth][error] CredentialsSignin: Read more at https://errors.authjs.dev#credentialssignin
+[00:15:22.559] Server  ERROR       at Module.callback (C:\Dev\asset_management\.next\dev\server\chunks\97170_@auth_core_2b2083b4._.js:4043:30)
+    at async AuthInternal (C:\Dev\asset_management\.next\dev\server\chunks\97170_@auth_core_2b2083b4._.js:4869:24)
+    at async Auth (C:\Dev\asset_management\.next\dev\server\chunks\97170_@auth_core_2b2083b4._.js:5091:34)
+    at async AppRouteRouteModule.do (C:\Dev\asset_management\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:23:37913)
+    at async AppRouteRouteModule.handle (C:\Dev\asset_management\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:23:45132)
+    at async responseGenerator (C:\Dev\asset_management\.next\dev\server\chunks\node_modules_next_5d661447._.js:16089:38)
+    at async AppRouteRouteModule.handleResponse (C:\Dev\asset_management\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:19:132654)
+    at async handleResponse (C:\Dev\asset_management\.next\dev\server\chunks\node_modules_next_5d661447._.js:16151:32)
+    at async handler (C:\Dev\asset_management\.next\dev\server\chunks\node_modules_next_5d661447._.js:16204:13)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Dev\asset_management\node_modules\next\dist\server\base-server.js:1415:9)
+    at async DevServer.renderPageComponent (C:\Dev\asset_management\node_modules\next\dist\server\base-server.js:1467:24)
+    at async DevServer.renderToResponseImpl (C:\Dev\asset_management\node_modules\next\dist\server\base-server.js:1517:32)
+    at async DevServer.pipeImpl (C:\Dev\asset_management\node_modules\next\dist\server\base-server.js:1023:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Dev\asset_management\node_modules\next\dist\server\next-server.js:394:17)
+    at async DevServer.handleRequestImpl (C:\Dev\asset_management\node_modules\next\dist\server\base-server.js:914:17)
+    at async C:\Dev\asset_management\node_modules\next\dist\server\dev\next-dev-server.js:373:20
+    at async Span.traceAsyncFn (C:\Dev\asset_management\node_modules\next\dist\trace\trace.js:157:20)
+    at async DevServer.handleRequest (C:\Dev\asset_management\node_modules\next\dist\server\dev\next-dev-server.js:369:24)
+    at async invokeRender (C:\Dev\asset_management\node_modules\next\dist\server\lib\router-server.js:240:21)
+    at async handleRequest (C:\Dev\asset_management\node_modules\next\dist\server\lib\router-server.js:436:24)
+    at async requestHandlerImpl (C:\Dev\asset_management\node_modules\next\dist\server\lib\router-server.js:484:13)
+    at async Server.requestListener (C:\Dev\asset_management\node_modules\next\dist\server\lib\start-server.js:226:13)
+[00:15:22.670] Browser LOG     SignIn result: {"code":"credentials","error":"CredentialsSignin","ok":true,"status":200,"url":null}
+[00:15:22.670] Browser LOG     Sign in failed with error: CredentialsSignin
+[00:15:22.670] Browser LOG     AUDIT: {"action":"login","createdAt":"2025-11-08T17:16:50.901Z","description":"Failed login attempt","eventType":"LOGIN_FAILURE","id":"audit_1762622210901_gefgrfoua","ipAddress":"127.0.0.1","severity":"MEDIUM","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}
+[00:15:25.824] Server  LOG     🔍 Enhanced authentication attempt: {}
+[00:15:26.029] Browser LOG     Attempting to sign in with: {"email":"zghormley@gmail.com","password":"123..."}
+[00:15:26.272] Server  LOG     🔐 Password validation: {}
+[00:15:26.273] Server  LOG     SECURITY: {}
+[00:15:26.274] Server  LOG     SESSION_CREATED: {}
+[00:15:26.275] Server  LOG     AUDIT: {}
+[00:15:26.275] Server  LOG     ✅ Enhanced authentication successful for user: "zghormley@gmail.com"
+[00:15:26.386] Browser LOG     SignIn result: {"code":null,"error":null,"ok":true,"status":200,"url":"http://localhost:3000/login"}
+[00:15:26.387] Browser LOG     SECURITY: {"action":"security_event","createdAt":"2025-11-08T17:16:54.619Z","description":"PASSWORD_CHANGE event occurred","details":{"action":"session_created","deviceInfo":"Web Browser","sessionId":"session_1762622214618_yl2sb5jl4","timestamp":"2025-11-08T17:16:54.618Z"},"eventType":"PASSWORD_CHANGE","id":"audit_1762622214619_zxicss044","ipAddress":"127.0.0.1","severity":"MEDIUM","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36","userId":"user_from_login"}
+[00:15:26.387] Browser LOG     SESSION_CREATED: {"createdAt":"2025-11-08T17:16:54.618Z","deviceInfo":"Web Browser","expiresAt":"2025-11-08T17:46:54.618Z","id":"session_1762622214618_yl2sb5jl4","ipAddress":"127.0.0.1","lastActivity":"2025-11-08T17:16:54.618Z","sessionToken":"session_1762622214618_7wksu0g99","status":"active","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36","userId":"user_from_login"}
+[00:15:26.387] Browser LOG     Session created for user: session_1762622214618_yl2sb5jl4
+[00:15:26.387] Browser LOG     AUDIT: {"action":"login","createdAt":"2025-11-08T17:16:54.619Z","description":"Successful login","eventType":"LOGIN_SUCCESS","id":"audit_1762622214619_p7m6161vc","ipAddress":"127.0.0.1","severity":"LOW","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36","userId":"user_from_login"}
+[00:15:29.546] Server  LOG     AUDIT: {}
+[00:15:29.600] Server  LOG     AUDIT: {}
+[00:19:32.066] Server  LOG     AUDIT: {}
+[00:19:32.109] Server  LOG     AUDIT: {}
+[00:58:52.608] Server  ERROR   {}
+[00:58:52.610] Server  ERROR    ⨯ "unhandledRejection:" {}
+[00:58:52.611] Server  ERROR    ⨯ "unhandledRejection: " {}
+[00:58:52.612] Server  LOG      ✓ Compiled in 62ms
+[00:59:15.110] Server  LOG      ✓ Compiled in 363ms
+[00:59:30.626] Server  LOG        Reload env: .env
+[00:59:30.861] Server  LOG      ✓ Compiled in 114ms
+[01:20:33.681] Server  LOG      ✓ Compiled in 310ms
+[01:23:54.465] Server  LOG        Reload env: .env
+[01:24:09.798] Server  ERROR    ⨯ [
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 32,
+    "inclusive": true,
+    "path": [
+      "NEXTAUTH_SECRET"
+    ],
+    "message": "NextAuth secret must be at least 32 characters"
+  }
+]
+[01:24:10.519] Server  ERROR    ⨯ [
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 32,
+    "inclusive": true,
+    "path": [
+      "NEXTAUTH_SECRET"
+    ],
+    "message": "NextAuth secret must be at least 32 characters"
+  }
+]
+[01:24:13.366] Server  ERROR    ⨯ ZodError: [
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 32,
+    "inclusive": true,
+    "path": [
+      "NEXTAUTH_SECRET"
+    ],
+    "message": "NextAuth secret must be at least 32 characters"
+  }
+]
+[01:24:13.454] Server  ERROR    ⨯ ZodError: [
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 32,
+    "inclusive": true,
+    "path": [
+      "NEXTAUTH_SECRET"
+    ],
+    "message": "NextAuth secret must be at least 32 characters"
+  }
+]
+[01:24:13.529] Server  ERROR    ⨯ ZodError: [
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 32,
+    "inclusive": true,
+    "path": [
+      "NEXTAUTH_SECRET"
+    ],
+    "message": "NextAuth secret must be at least 32 characters"
+  }
+]
+[01:24:13.653] Server  ERROR    ⨯ ZodError: [
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 32,
+    "inclusive": true,
+    "path": [
+      "NEXTAUTH_SECRET"
+    ],
+    "message": "NextAuth secret must be at least 32 characters"
+  }
+]
+[01:24:14.082] Browser ERROR   uncaughtError: ZodError: [
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 32,
+    "inclusive": true,
+    "path": [
+      "NEXTAUTH_SECRET"
+    ],
+    "message": "NextAuth secret must be at least 32 characters"
+  }
+]
+[01:24:20.551] Server  LOG      ✓ Compiled in 224ms
+[01:28:53.261] Server  LOG      ✓ Compiled in 1069ms
+[01:29:19.084] Server  LOG      ✓ Compiled in 261ms
